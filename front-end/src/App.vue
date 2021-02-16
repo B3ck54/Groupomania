@@ -1,36 +1,35 @@
 <template>
-    <div id="app" class="container-fluid">
-        <div class="site-info">
-            <h1>grokonez</h1>
-            <h3>Vue Nodejs example</h3>
-        </div>
-        <nav>
-            <router-link class="btn btn-primary" to="/">Customers</router-link>
-            <router-link class="btn btn-primary" to="/add">Add</router-link>
-            <router-link class="btn btn-primary" to="/search">Search</router-link>
-        </nav>
-        <br/>
-        <router-view/>
-    </div>
+<div>
+  <Header/>
+
+    <v-row align="center">
+      <v-col cols="12">
+        <h1>GROUPOMANIA</h1>
+        <h3>Social Network</h3>
+      </v-col>
+      <br/>
+    <router-view/>
+    </v-row>
+</div>
 </template>
  
 <script>
+import Header from "./components/base/Header.vue";
 export default {
-  name: "app"
+  name: 'app',
+  components: {
+    Header
+  },
+
 };
 </script>
  
-<style>
-.site-info {
-  color: blue;
-  margin-bottom: 20px;
-}
- 
-.btn-primary {
-  margin-right: 5px;
-}
- 
-.container-fluid {
+<style lang="css">
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: #ff6702f8;
 }
 </style>
