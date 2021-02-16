@@ -2,7 +2,7 @@
 node_modules/
 
 ### env ###
-env.js
+./config/env.js
 
 # OSX
 .DS_Store
