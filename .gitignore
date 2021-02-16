@@ -1,8 +1,8 @@
 # Dependency directories
 node_modules/
 
-### dotenv ###
-.env
+### env ###
+back-end/config/env.js
 
 # OSX
 .DS_Store
