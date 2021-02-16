@@ -1,0 +1,25 @@
+{
+  "name": "groupomania",
+  "version": "1.0.0",
+  "description": "Social Network",
+  "main": "index.js",
+  "scripts": {
+    "install": "cd front-end && npm install && cd ../back-end && npm install",
+    "start-front-end": "cd front-end && npm run serve",
+    "start-back-end": "cd back-end && nodemon server",
+    "start": "npm-run-all --parallel start-front-end start-back-end"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B3ck54/Groupomania.git"
+  },
+  "author": "Celine Jacquet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/B3ck54/Groupomania/issues"
+  },
+  "homepage": "https://github.com/B3ck54/Groupomania#readme",
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
