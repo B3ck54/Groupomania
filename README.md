@@ -9,6 +9,7 @@ Social Network
 Go to folder "Groupomania/back-end/config"
 Configure .env.js (database, port ...)
 
+
  🚀 **Install & Start Front-end**
 
 	cd front-end
