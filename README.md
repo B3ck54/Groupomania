@@ -1,19 +1,35 @@
 # Groupomania
 Social Network
 
-Application d’évaluation de sauces piquantes.
 
-First
+🚀 **First**
 
-git clone https://github.com/B3ck54/Groupomania.git
-Go to folder "Groupomania/back-end/config" Configure .env.js (database, port ...)
+    git clone https://github.com/B3ck54/Groupomania.git
 
-Install Front-end & Back-end
+Go to folder "Groupomania/back-end/config"
+Configure .env.js (database, port ...)
 
-npm install
-http://localhost:4200/
+ 🚀 **Install & Start Front-end**
 
-Start Front-end & Back-end
+	cd front-end
+	npm install
+	npm run serve
 
-npm start
-http://localhost:8080/
+ http://localhost:4200/
+
+ 
+ 🚀 **Install & Start Back-end**
+
+	cd ../back-end/
+	npm install
+	nodemon server
+
+http://localhost:3000/
+
+
+ 🚀 **Start Back-end & Front-end**
+ 
+You can start back-end and front-end at the same time
+
+ 	npm start
+
