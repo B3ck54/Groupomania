@@ -3,6 +3,8 @@
     <v-toolbar-title align="center">
       <a
       href="/"
+      class="d-flex align-center"
+      style="textDecoration: 'none'"
       >
         <img
         src="../../assets/logo-groupomania.png"
@@ -15,13 +17,14 @@
       <v-spacer/>
 
       <router-link
-        to="/"
+        to="/login"
+        
       >
         <v-btn
           color="white"
           text
         >
-          <span>Customers</span>
+          <span>Connexion</span>
           <v-icon>person</v-icon>
         </v-btn>
       </router-link>
@@ -59,3 +62,7 @@ export default {
   name: 'Header'
 };
 </script>
+
+ 
+<style lang="scss">
+</style>

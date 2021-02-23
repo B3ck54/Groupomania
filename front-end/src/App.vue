@@ -1,30 +1,26 @@
 <template>
 <div>
   <Header/>
-
-    <v-row align="center">
-      <v-col cols="12">
-        <h1>GROUPOMANIA</h1>
-        <h3>Social Network</h3>
-      </v-col>
-      <br/>
-    <router-view/>
-    </v-row>
+  
+  <Home/>
 </div>
 </template>
  
 <script>
 import Header from "./components/base/Header.vue";
+import Home from "./components/base/Home.vue";
+
 export default {
   name: 'app',
   components: {
-    Header
+    Header,
+    Home
   },
 
 };
 </script>
  
-<style lang="css">
+<style lang="scss">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
