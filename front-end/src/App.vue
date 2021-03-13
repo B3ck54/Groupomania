@@ -1,8 +1,10 @@
 <template>
-<div>
+<div id="app">
   <Header/>
   
+  <div id="home">
   <Home/>
+  </div>
 </div>
 </template>
  
@@ -26,6 +28,10 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  justify-content: center;
   color: #ff6702f8;
+}
+#home {
+  margin-top: 60px;
 }
 </style>

@@ -4,7 +4,6 @@ const app = express();
 
 app.use(bodyParser.json())
 
-
 // const path = require('path'); //donne accès au chemin de système de fichier
 // const helmet = require("helmet");// sécurité entêtes http
 
@@ -20,9 +19,9 @@ app.use(cors(corsOptions))
 const db = require('../back-end/config/db.config.js');
   
 // force: true will drop the table if it already exists
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync with { force: true }');
-});
+// db.sequelize.sync({force: true}).then(() => {
+//   console.log('Drop and Resync with { force: true }');
+// });
 
 // app.use(helmet());
 
@@ -33,13 +32,14 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(bodyParser.json());
-
+const postRoutes = require ('./routes/post');
 const userRoutes = require ('./routes/user');
 
-// app.use('/images', express.static(path.join(__dirname, 'images')));
+const path = require('path');
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
+app.use('/api/posts', postRoutes);
+
 
 module.exports = app;

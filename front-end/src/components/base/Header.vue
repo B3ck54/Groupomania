@@ -4,12 +4,13 @@
       <a
       href="/"
       class="d-flex align-center"
-      style="textDecoration: 'none'"
+      style="text-decoration: 'none'"
       >
         <img
         src="../../assets/logo-groupomania.png"
         alt="Groupomania"
         contain
+        height="50"
         >
       </a>
     </v-toolbar-title>
@@ -29,38 +30,34 @@
         </v-btn>
       </router-link>
 
-      <router-link
-        to="/add"
-      >
+
         <v-btn
           color="white"
           text
+          @click="disconnect()"
         >
-          <span>Add</span>
-          <v-icon>add</v-icon>
+          <span>Déconnexion</span>
+          <v-icon>person</v-icon>
         </v-btn>
-      </router-link>
-
-      <router-link
-        to="/search"
-      >
-        <v-btn
-          color="white"
-          text
-        >
-          <span>Search</span>
-          <v-icon>search</v-icon>
-        </v-btn>
-      </router-link>
-
-
   </v-toolbar>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  name: 'Header'
+  name: 'Header',
+  computed: {
+  ...mapState(["user"])
+  },
+  methods: {
+    disconnect() {
+      localStorage.clear();
+      location.replace(location.origin);
+    }
+  }
 };
+
 </script>
 
  

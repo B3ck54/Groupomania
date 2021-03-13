@@ -11,6 +11,7 @@ exports.signup = (req, res, next) => {
     .then(hash => {
       const user = new User({
         email: req.body.email,
+        username: req.body.username,
         password: hash
       });
       user.save()
@@ -20,8 +21,6 @@ exports.signup = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
  
-
-
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email })
     .then(user => {
@@ -34,9 +33,8 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ error: 'Mot de passe incorrect !' });
           }
           res.status(200).json({
-            userId: user._id,
             token: jwt.sign(
-              { userId: user._id },
+              { userId: user.id },
               process.env.JWT_TOKEN_SECRET,
               { expiresIn: '1h' }
             )
@@ -45,4 +43,57 @@ exports.login = (req, res, next) => {
         .catch(error => res.status(500).json({ error }));
     })
     .catch(error => res.status(500).json({ error }));
+};
+
+exports.logout = (req, res, next) => {
+  req.session.destroy(function(err){  
+    if(err){  
+        console.log(err);  
+    }  
+    else  
+    {  
+        res.redirect('/');  
+    }  
+  });  
+};
+
+exports.getAllUsers = (req, res, next) => {
+	User.findAll().then(users => {
+		// Send all user to Client
+		res.send(users);
+	}).catch(err => {
+		res.status(500).send("Error -> " + err);
+	})
+};
+
+exports.getUser = (req, res, next) => {	
+	User.findByPk(req.params.userId).then(user => {
+    // Send on user to Client
+		res.send(user);
+	}).catch(err => {
+		res.status(500).send("Error -> " + err);
+	})
+};
+
+exports.editProfile = (req, res, next) => {
+	var user = req.body;
+	const id = req.params.userId;
+	User.update( { email: req.body.email, username: req.body.username }, 
+						{ where: {id: req.params.userId} }
+				   ).then(() => {
+						res.status(200).send('Profil mis à jour');
+				   }).catch(err => {
+						res.status(500).send("Error -> " + err);
+				   })
+};
+
+exports.deleteUser = (req, res) => {
+	const id = req.params.userId;
+	User.destroy({
+	  where: { id: id }
+	}).then(() => {
+		res.status(200).send('Compte supprimé');
+	}).catch(err => {
+		res.status(500).send("Error -> " + err);
+	});
 };

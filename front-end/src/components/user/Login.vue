@@ -1,9 +1,10 @@
 <template>
-  <v-row>
+  <v-row id="login">
+    <v-spacer />
     <v-col cols="6">
-      <v-form ref="form" v-model="form" class="pa-4 pt-6">
+      <v-form ref="form" v-model="form">
         <v-text-field
-          v-model="email"
+          v-model="dataLogin.email"
           :rules="[rules.email]"
           filled
           color="deep-purple"
@@ -11,7 +12,7 @@
           type="email"
         ></v-text-field>
         <v-text-field
-          v-model="password"
+          v-model="dataLogin.password"
           :rules="[rules.password, rules.length(6)]"
           filled
           color="deep-purple"
@@ -21,6 +22,7 @@
           type="password"
         ></v-text-field>
       </v-form>
+      <v-btn @click="login">Submit</v-btn>
       <v-col>
         <router-link to="/register">
           <v-btn color="white" text>
@@ -29,19 +31,26 @@
         </router-link>
       </v-col>
     </v-col>
+    <v-spacer />
   </v-row>
 </template>
 
 
 <script>
+import axios from "axios";
+import router from '../../router'
+
 export default {
   name: "login",
   data: () => ({
     agreement: false,
-    email: undefined,
+    dataLogin: {
+      email: null,
+      password: null
+    },
     form: false,
     isLoading: false,
-    password: undefined,
+    password: "",
     rules: {
       email: (v) => !!(v || "").match(/@/) || "Please enter a valid email",
       length: (len) => (v) =>
@@ -54,8 +63,32 @@ export default {
       required: (v) => !!v || "This field is required",
     },
   }),
+  methods: {
+    login() {
+      // var data = {
+      //   email: this.email,
+      //   password: this.password,
+      // };
+      axios
+        .post("http://localhost:3000/api/auth/login", this.dataLogin)
+        .then((response) => {
+          // this.user.id = response.data.id;
+          console.log(response.data);
+          localStorage.setItem('token', response.data.token)
+          router.push({ name: 'chat' })
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+
+      this.submitted = true;
+    }
+  }
 };
 </script>
 
 <style lang="scss">
+#login {
+  margin-top: 40px;
+}
 </style>

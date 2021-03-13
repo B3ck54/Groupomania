@@ -16,11 +16,12 @@ const sequelize = new Sequelize(env.database, env.username, env.password, {
  
 const db = {};
  
-db.Sequelize = Sequelize;
+// db.Sequelize = Sequelize;
 db.sequelize = sequelize;
  
 //Models/tables
 db.users = require('../models/User.js')(sequelize, Sequelize);
+db.posts = require('../models/Post.js')(sequelize, Sequelize);
  
  
 module.exports = db;
