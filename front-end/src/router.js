@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./components/user/Login.vue";
 import SignUp from "./components/user/SignUp.vue";
-import Chat from "./components/Chat.vue";
+import Posts from "./components/posts/Posts.vue";
 
 
 
@@ -24,8 +24,8 @@ export default new Router({
     },
     {
       path: "/chat",
-      name: "chat",
-      component: Chat
+      name: "posts",
+      component: Posts
     }
   ]
 });

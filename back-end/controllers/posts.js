@@ -7,13 +7,19 @@ const fs = require("fs");
 
 const db = require('../config/db.config.js');
 const User = require('../models/User.js');
+const {
+  user
+} = require('../config/db.config.js');
 const Post = db.posts;
 
 exports.createPost = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+  const userId = decodedToken.userId;
   // Save to MySQL database
   Post.create({
     ...req.body,
-    UserId: req.body.userId,
+    UserId: userId,
     imageUrl: (req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null)
 
   }).then(post => {
@@ -83,26 +89,28 @@ exports.deletePost = (req, res, next) => {
   const where = {
     id: req.params.id
   }
-  Post.findOne({ where })
+  Post.findOne({
+      where
+    })
     .then(post => {
       const filename = post.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
-   
-      if (!post) {
-        res.status(400).json({
-          error: "Unauthorized"
-        })
-      }
-      post
-        .destroy()
-        .then(() =>
-          res.status(200).json({
-            message: 'Post has been deleted'
+
+        if (!post) {
+          res.status(400).json({
+            error: "Unauthorized"
           })
-        )
-        .catch(error => res.status(400).json({
-          error
-        }))
+        }
+        post
+          .destroy()
+          .then(() =>
+            res.status(200).json({
+              message: 'Post has been deleted'
+            })
+          )
+          .catch(error => res.status(400).json({
+            error
+          }))
       })
     })
 

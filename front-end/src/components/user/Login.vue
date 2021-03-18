@@ -48,40 +48,37 @@ export default {
       email: null,
       password: null
     },
+    token: null,
     form: false,
     isLoading: false,
     password: "",
     rules: {
-      email: (v) => !!(v || "").match(/@/) || "Please enter a valid email",
+      email: (v) => !!(v || "").match(/@/) || "Merci de rentrer un email valide",
       length: (len) => (v) =>
-        (v || "").length >= len || `Invalid character length, required ${len}`,
+        (v || "").length >= len || `La longuer n'est pas valide, il faut ${len} maximum`,
       password: (v) =>
         !!(v || "").match(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
         ) ||
-        "Password must contain an upper case letter, a numeric character, and a special character",
-      required: (v) => !!v || "This field is required",
+        "Le mot de passe doit contenir une lettre majuscule, un caractère numérique, et un caractère spécial",
+      required: (v) => !!v || "Le champ est requis",
     },
   }),
   methods: {
     login() {
-      // var data = {
-      //   email: this.email,
-      //   password: this.password,
-      // };
       axios
         .post("http://localhost:3000/api/auth/login", this.dataLogin)
-        .then((response) => {
-          // this.user.id = response.data.id;
-          console.log(response.data);
-          localStorage.setItem('token', response.data.token)
-          router.push({ name: 'chat' })
+        .then((res) => {
+          let token = res.data.token;
+          localStorage.setItem("token", token);          
+          router.push({ name: 'posts' }) 
         })
         .catch((e) => {
           console.log(e);
         });
 
       this.submitted = true;
+
     }
   }
 };

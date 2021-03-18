@@ -1,7 +1,16 @@
 'use strict';
+const {
+  Model
+} = require('sequelize');
+const db = require('../config/db.config.js');
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  class User extends Model {
+    static associate(models) {
+      models.User.hasMany(models.Post);
+    }
+  };
+  User.init({
     id: {
       type: DataTypes.INTEGER(11).UNSIGNED,
       allowNull:     false,

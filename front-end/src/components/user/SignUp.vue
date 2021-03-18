@@ -53,6 +53,7 @@
 
 <script>
 import axios from "axios";
+import router from '../../router'
 
 export default {
   name: "sign-up",
@@ -79,23 +80,23 @@ export default {
   methods: {
     /* eslint-disable no-console */
     saveUser() {
-      var data = {
+      var dataLogin = {
         email: this.email,
         password: this.password,
         username: this.username
       };
+      if (this.$refs.form.validate()) {
+        axios.post("http://localhost:3000/api/auth/register", dataLogin)
+          .then(res => {
+              let token = res.data.token;
+              localStorage.setItem("token", token); 
+            router.push({ name: 'posts' }) ;
 
-      axios
-        .post("http://localhost:3000/api/auth/register", data)
-        .then(response => {
-          this.user.id = response.data.id;
-          console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-      this.submitted = true;
+          })
+          .catch((err) => console.log(err));
+      } else {
+        alert("veuillez renseigner tout les schamps !");    
+      }
     }
   }
 };

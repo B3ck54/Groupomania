@@ -20,7 +20,7 @@ const db = {};
 db.sequelize = sequelize;
  
 //Models/tables
-db.users = require('../models/User.js')(sequelize, Sequelize);
+db.user = require('../models/User.js')(sequelize, Sequelize);
 db.posts = require('../models/Post.js')(sequelize, Sequelize);
  
  
