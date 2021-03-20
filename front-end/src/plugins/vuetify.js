@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib'
 import 'vuetify/dist/vuetify.min.css'
 import fr from 'vuetify/lib/locale/fr';
 
@@ -12,5 +12,28 @@ export default new Vuetify({
     },
   icons: {
     iconfont: 'md',
+  },
+  theme: {
+    dark: true,
+    themes: {
+      light: {
+        primary: '#ff5722',
+        secondary:'#00bcd4',
+        accent: '#ff9800',
+        error: '#f44336',
+        warning: '#ffc107',
+        info: '#009688',
+        success: '#4caf50'
+      },
+      dark: {
+        primary: '#ff5722',
+        secondary:'#00bcd4',
+        accent: '#ff9800',
+        error: '#f44336',
+        warning: '#ffc107',
+        info: '#009688',
+        success: '#4caf50'
+      }
+    },
   },
 });

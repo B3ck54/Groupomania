@@ -1,20 +1,20 @@
 <template>
   <v-container>
-    <v-toolbar-title class="white--text"
-        >Bienvenue sur le Forum ! </v-toolbar-title>
-    <v-container class="fill-height">
-      <v-row class="fill-height pb-14" align="end">
-        <v-col>
-          <div v-for="post in posts" :key="post.id"
-              :class="['d-flex flex-row align-center my-2 justify-end']">
-            <span class="blue--text mr-3">{{ post.message }}</span>
-          </div>
-        </v-col>
-      </v-row>
-    </v-container>
+    <h1 color="primary"
+        >Bienvenue sur le Forum ! </h1>
+
+        <h2 v-if="!posts.length" color="primary">Écrivez le premier post !!!</h2>
+
+    <PostList/>
+
+
     <v-footer fixed>
-      <v-container class="ma-0 pa-0">
+      <v-container>
+              <v-row justify="center">
+        <v-col cols="10">
       <CreatePost/>
+        </v-col>
+              </v-row>
       </v-container>
     </v-footer>
   </v-container>
@@ -23,17 +23,18 @@
 <script>
 
 import CreatePost from '../posts/CreatePost';
+import PostList from '../posts/PostList';
 export default {
   components: {
     CreatePost,
+    PostList
   },
   data: function () {
     return {
-      msg: null,
     };
   },
   created() {
-      this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api
+    this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api
   },
   computed: {
     posts() {

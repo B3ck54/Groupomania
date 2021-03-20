@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-    <v-col >
+    <v-col cols="8" >
         <v-form ref="form" v-model="form" class="pt-6">
           <v-text-field
             v-model="email"
