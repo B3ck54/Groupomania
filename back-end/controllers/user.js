@@ -82,28 +82,31 @@ exports.getAllUsers = (req, res, next) => {
     // Send all user to Client
     res.send(users);
   }).catch(err => {
-    res.status(500).send("Error -> " + err);
+    res.status(401).send("Error -> " + err);
   })
 };
 
-exports.getUser = (req, res, next) => {
-  User.findByPk(req.params.userId).then(user => {
-    // Send on user to Client
+exports.getProfile = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+  const id = decodedToken.userId;
+  User.findOne({
+    attributes: ['id', 'email', 'username','isAdmin'],
+        where: { id: id }
+  }).then(user => {
     res.send(user);
   }).catch(err => {
-    res.status(500).send("Error -> " + err);
+    res.status(401).send("Error -> " + err);
   })
-};
-
+}
 exports.editProfile = (req, res, next) => {
-  var user = req.body;
-  const id = req.params.userId;
+  let userObject = {};
+
   User.update({
-    email: req.body.email,
-    username: req.body.username
+    ...userObject
   }, {
     where: {
-      id: req.params.userId
+      id: req.params.userId // id qui est égale à l'id dans les paramètres de requêtes
     }
   }).then(() => {
     res.status(200).send('Profil mis à jour');
@@ -111,6 +114,8 @@ exports.editProfile = (req, res, next) => {
     res.status(500).send("Error -> " + err);
   })
 };
+
+//
 
 exports.deleteUser = (req, res) => {
   const id = req.params.userId;

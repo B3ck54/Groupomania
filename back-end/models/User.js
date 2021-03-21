@@ -18,12 +18,12 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
     },
     email: {
-      type: DataTypes.STRING(180),
+      type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
     },
     username: {
-      type: DataTypes.STRING(60),
+      type: DataTypes.STRING(64),
       allowNull: false,
       unique: true,
     },
@@ -31,10 +31,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
     }
   }, {
     sequelize,

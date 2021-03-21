@@ -1,31 +1,26 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import postService from '../mixins/postService';
+import postService from '../service/postService';
+import userService from '../service/userService';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLoggedIn: false,
+    user: {
+      username: "",
+      userId: "",
+      email: "",
+      token: null,
+      isAdmin: false
+    },
     errors: [],
     posts: [], //nos futurs posts
-    token: null,
     message: "",
   },
   getters: {
-    isLogged(state) {
-      return state.isLoggedIn;
-    }
   },
   mutations: {
-    SET_TOKEN(state, token) {
-      state.token = token;
-      if (token) {
-        state.isLoggedIn = true;
-      } else {
-        state.isLoggedIn = false;
-      }
-    },
     DELETE_TOKEN(state) {
       state.token = null;
       state.isLoggedIn = false;
@@ -45,13 +40,17 @@ export default new Vuex.Store({
     },
     GET_ERROR(state, error) {
       state.errors = [error, ...state.errors];
-    }  
+    },
+    GET_USER(state, [username, userId, email, isAdmin]) {
+      state.user.username = username,
+        state.user.userId = userId,
+        state.user.email = email,
+        state.user.token = localStorage.getItem('token'),
+        state.user.isAdmin = isAdmin
+    } 
   },
   actions: {
     //users
-    setToken({ commit }, token) {
-      commit("SET_TOKEN", token);
-    },
     deleteToken({ commit }, token) {
       commit("DELETE_TOKEN", token);
     },
@@ -76,8 +75,28 @@ export default new Vuex.Store({
       postService.createPost(post).then((res) => {
         const post = res.data;
         commit("CREATE_POST", post)
+      })
+      .catch(err => {
+        const error = {
+          date: new Date(),
+          message: `failed to create a post: ${err.message}`
+        };
+        commit("GET_ERROR", error);
       });
+    },
+    getUser({ commit }) {
+      userService.getUser().then((res) => {
+          commit('GET_USER',[res.data.username, res.data.id, res.data.email, res.data.isAdmin])
+        })
+        .catch(err => {
+          const error = {
+            date: new Date(),
+            message: `failed to retrieve get user: ${err.message}`
+          };
+          commit("GET_ERROR", error);
+        });
     }
+    
   },
   modules: {
   }

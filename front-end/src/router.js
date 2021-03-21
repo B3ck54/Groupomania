@@ -4,6 +4,8 @@ import Login from "./components/user/Login.vue";
 import SignUp from "./components/user/SignUp.vue";
 import Profile from "./components/user/UpdateProfile.vue";
 import Posts from "./components/posts/Posts.vue";
+import Home from "./components/base/Home.vue";
+
 
 Vue.use(Router);
  
@@ -14,6 +16,11 @@ export default new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/home",
+      name: "home",
+      component: Home
     },
     {
       path: "/register",

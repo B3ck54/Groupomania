@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
-    <v-row justify="center">
+    <v-row justify="center" >
       <v-col cols="8">
         <v-avatar size="200" color="grey lighten-4">
           <img
@@ -11,40 +11,34 @@
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="2">
-        <v-btn color="primary" width="250px" class="mt-5 white--text" depressed>
+      <v-col cols="6">
+        <v-btn color="primary" class="ma-2 white--text" fab>
           <v-icon>edit</v-icon>
-          Editer mon profil
         </v-btn>
-        <v-btn class="mt-5 white--text" color="error" width="250px" depressed>
+        <v-btn color="error" class="ma-2 white--text" fab>
           <v-icon>delete</v-icon>
-          Supprimer mon compte
         </v-btn>
       </v-col>
     </v-row>
     <v-row justify="center">
-      <v-col cols="6">
-        <h3 class="mt-5">Peter Long Name MaxCannahannanumam</h3>
-        <p>
-          Here please add:<br />
-          form fields here<br />
-          or content inthe way we do it now (DetailList / DetailListItem)
-        </p>
-        <br />
-        <v-divider></v-divider>
-        <br />
-        <p>hello my lovely text</p>
-        <p>
-          hello my evil text<br />
-          hello my general text
-        </p>
+      <v-col cols="4">
+        <h3 class="mt-5">{{ user.username }}</h3>
+        <h3 class="mt-5">{{ user.email }}</h3>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-export default {};
+import { mapState } from "vuex";
+export default {
+  mounted() {
+    this.$store.dispatch("getUser");
+  },
+  computed: {
+    ...mapState(["user"]),
+  },
+};
 </script>
 
 <style lang="scss" scoped>

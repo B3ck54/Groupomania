@@ -5,28 +5,27 @@
         <Header />
       </div>
       <v-switch
-          v-model="$vuetify.theme.dark"
-          inset
-          label="Theme Dark"
-          persistent-hint
-          class="ml-10"
-        ></v-switch>
+        v-model="$vuetify.theme.dark"
+        inset
+        label="Theme Dark"
+        persistent-hint
+        class="ml-10"
+      ></v-switch>
 
-<router-view/>
+      <router-view />
     </v-app>
   </div>
 </template>
  
 <script>
 import Header from "./components/base/Header.vue";
-// import Home from "./components/base/Home.vue";
+
 
 export default {
   name: "app",
   components: {
-    Header,
-    // Home,
-  },
+    Header
+  }
 };
 </script>
  

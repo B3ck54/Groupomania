@@ -35,6 +35,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api
+    this.$store.dispatch("getUser");
   },
   computed: {
     posts() {

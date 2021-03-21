@@ -95,7 +95,7 @@ export default {
           })
           .catch((err) => console.log(err));
       } else {
-        alert("veuillez renseigner tout les schamps !");    
+        alert("veuillez renseigner tout les champs ");    
       }
     }
   }

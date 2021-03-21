@@ -13,8 +13,12 @@
 <script>
 export default {
   name: "home",
-   components: {
-    },
+
+    methods: {
+    logOut: function() {
+      this.$store.dispatch("logOut");
+    }
+  }
 };
 </script>
  
