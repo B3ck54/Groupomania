@@ -1,7 +1,7 @@
 <template>
   <v-container class="fill-height">
-    <v-row align="center">
-      <v-col cols="12">
+    <v-row justify="center">
+      <v-col cols="6">
         <v-card
           v-for="post in posts"
           :key="post.id"
@@ -75,10 +75,6 @@ import axios from "axios";
 export default {
   components: {
     Profile,
-  },
-  data() {
-    return {
-    };
   },
   created() {
     this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 color="primary"
+    <h1 class="mt-n4" color="primary"
         >Bienvenue sur le Forum ! </h1>
 
         <h2 v-if="!posts.length" color="primary">Écrivez le premier post !!!</h2>
@@ -11,7 +11,7 @@
     <v-footer fixed>
       <v-container>
               <v-row justify="center">
-        <v-col cols="10">
+        <v-col cols="12">
       <CreatePost/>
         </v-col>
               </v-row>

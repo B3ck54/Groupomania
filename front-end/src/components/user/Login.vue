@@ -21,9 +21,9 @@
           style="min-height: 96px"
           type="password"
         ></v-text-field>
+        <p class="mt-n2 text-error">{{ errorMessage }}</p>
       </v-form>
       <v-btn @click="login">Connexion</v-btn>
-      <p class="my-3 text-danger">{{ errorMessage }}</p>
       <v-col>
         <router-link to="/register">
           <v-btn color="white" text>
@@ -49,10 +49,10 @@ export default {
       email: null,
       password: null,
     },
+    loading: false,
     errorMessage: "",
     token: null,
     form: false,
-    isLoading: false,
     rules: {
       email: (v) =>
         !!(v || "").match(/@/) || "Merci de rentrer un email valide",
@@ -67,11 +67,15 @@ export default {
       required: (v) => !!v || "Le champ est requis",
     },
   }),
+  created() {
+    this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("dark"));
+  },
   methods: {
     login() {
       axios
         .post("http://localhost:3000/api/auth/login", this.dataLogin)
         .then((res) => {
+          this.loading = true;
           let token = res.data.token;
           if (!token) {
             this.errorMessage = "Cet email n/'existe pas";
@@ -80,8 +84,9 @@ export default {
             router.push({ name: "posts" });
           }
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
+          this.loading = false;
+          this.errorMessage = "Adresse email ou mot de passe incorrect";
         });
 
       this.submitted = true;
