@@ -1,7 +1,11 @@
 <template>
   <v-toolbar elevation color="primary">
     <v-toolbar-title align="center">
-      <a href="/home" class="d-flex align-center" style="text-decoration: 'none'">
+      <a
+        :href="redirect"
+        class="d-flex align-center"
+        style="text-decoration: 'none'"
+      >
         <img
           src="../../assets/icon-left-font-monochrome-white.png"
           alt="Groupomania"
@@ -13,10 +17,17 @@
 
     <v-spacer />
 
-    <router-link to="/login">
+    <!-- <router-link to="/login">
       <v-btn color="white" text class="mr-5" v-if="user.token == null">
         <span>Connexion</span>
         <v-icon>login</v-icon>
+      </v-btn>
+    </router-link> -->
+
+    <router-link to="/register">
+      <v-btn color="white" text class="mr-5" v-if="user.token == null">
+        <span>Inscription</span>
+        <v-icon>account_circle</v-icon>
       </v-btn>
     </router-link>
 
@@ -34,6 +45,18 @@
       </v-btn>
     </router-link>
 
+    <router-link to="/admin">
+      <v-btn
+        color="white"
+        text
+        class="mr-5"
+        v-if="user.token !== null && user.isAdmin == true"
+      >
+        <span>Admin</span>
+        <v-icon>security</v-icon>
+      </v-btn>
+    </router-link>
+
     <v-btn color="white" text @click="logout()" v-if="user.token !== null">
       <span>Déconnexion</span>
       <v-icon>logout</v-icon>
@@ -45,8 +68,24 @@
 import { mapState } from "vuex";
 export default {
   name: "Header",
+  data() {
+    return {
+      redirectLogin: "/",
+      redirectPosts: "/chat",
+    };
+  },
   computed: {
     ...mapState(["user"]),
+    redirect() {
+      if (this.user.token == null) {
+        return this.redirectLogin;
+      } else {
+        return this.redirectPosts;
+      }
+    },
+  },
+  beforeUpdate() {
+    this.$store.dispatch("getUser");
   },
   methods: {
     logout() {

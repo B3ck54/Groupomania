@@ -22,7 +22,8 @@
           type="password"
         ></v-text-field>
       </v-form>
-      <v-btn @click="login">Submit</v-btn>
+      <v-btn @click="login">Connexion</v-btn>
+      <p class="my-3 text-danger">{{ errorMessage }}</p>
       <v-col>
         <router-link to="/register">
           <v-btn color="white" text>
@@ -38,7 +39,7 @@
 
 <script>
 import axios from "axios";
-import router from '../../router'
+import router from "../../router";
 
 export default {
   name: "login",
@@ -46,16 +47,18 @@ export default {
     agreement: false,
     dataLogin: {
       email: null,
-      password: null
+      password: null,
     },
+    errorMessage: "",
     token: null,
     form: false,
     isLoading: false,
-    password: "",
     rules: {
-      email: (v) => !!(v || "").match(/@/) || "Merci de rentrer un email valide",
+      email: (v) =>
+        !!(v || "").match(/@/) || "Merci de rentrer un email valide",
       length: (len) => (v) =>
-        (v || "").length >= len || `La longuer n'est pas valide, il faut ${len} maximum`,
+        (v || "").length >= len ||
+        `La longuer n'est pas valide, il faut ${len} maximum`,
       password: (v) =>
         !!(v || "").match(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
@@ -70,17 +73,20 @@ export default {
         .post("http://localhost:3000/api/auth/login", this.dataLogin)
         .then((res) => {
           let token = res.data.token;
-          localStorage.setItem("token", token);          
-          router.push({ name: 'posts' }) 
+          if (!token) {
+            this.errorMessage = "Cet email n/'existe pas";
+          } else {
+            localStorage.setItem("token", token);
+            router.push({ name: "posts" });
+          }
         })
         .catch((e) => {
           console.log(e);
         });
 
       this.submitted = true;
-
-    }
-  }
+    },
+  },
 };
 </script>
 

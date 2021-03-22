@@ -1,5 +1,7 @@
 const bcrypt = require('bcrypt');
-const { json } = require('body-parser');
+const {
+  json
+} = require('body-parser');
 const jwt = require('jsonwebtoken');
 
 const db = require('../config/db.config.js');
@@ -19,21 +21,21 @@ exports.signup = (req, res, next) => {
           message: `Utilisateur créé !`,
           userId: user.id,
           token: jwt.sign({
-            userId: user.id
-          },
-          process.env.JWT_TOKEN_SECRET, {
-            expiresIn: '1h'
-          }
-        )
+              userId: user.id
+            },
+            process.env.JWT_TOKEN_SECRET, {
+              expiresIn: '1h'
+            }
+          )
 
         }))
-        .catch(error => res.status(400).json({
-          error
-        }));
+        .catch(err => {
+          res.status(400).send("Error -> " + err);
+        })
     })
-    .catch(error => res.status(500).json({
-      error
-    }));
+    .catch(err => {
+      res.status(500).send("Error -> " + err);
+    })
 };
 
 exports.login = (req, res, next) => {
@@ -58,7 +60,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user.id,
             isAdmin: user.isAdmin,
-
+            user: user,
             token: jwt.sign({
                 userId: user.id
               },
@@ -68,13 +70,13 @@ exports.login = (req, res, next) => {
             )
           });
         })
-        .catch(error => res.status(500).json({
-          error
-        }));
+        .catch(err => {
+          res.status(500).send("Error -> " + err);
+        })
     })
-    .catch(error => res.status(500).json({
-      error
-    }));
+    .catch(err => {
+      res.status(500).send("Error -> " + err);
+    })
 };
 
 exports.getAllUsers = (req, res, next) => {
@@ -91,8 +93,10 @@ exports.getProfile = (req, res, next) => {
   const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
   const id = decodedToken.userId;
   User.findOne({
-    attributes: ['id', 'email', 'username','isAdmin'],
-        where: { id: id }
+    attributes: ['id', 'email', 'username', 'isAdmin'],
+    where: {
+      id: id
+    }
   }).then(user => {
     res.send(user);
   }).catch(err => {

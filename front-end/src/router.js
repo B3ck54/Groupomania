@@ -4,23 +4,27 @@ import Login from "./components/user/Login.vue";
 import SignUp from "./components/user/SignUp.vue";
 import Profile from "./components/user/UpdateProfile.vue";
 import Posts from "./components/posts/Posts.vue";
-import Home from "./components/base/Home.vue";
+import Users from "./components/admin/Users.vue";
+
+import axios from "axios";
 
 
 Vue.use(Router);
- 
+
 export default new Router({
   mode: "history",
-  routes: [
+
+  routes: [{
+      path: '/',
+      redirect: {
+        name: 'login'
+      }
+    },
+
     {
       path: "/login",
       name: "login",
       component: Login
-    },
-    {
-      path: "/home",
-      name: "home",
-      component: Home
     },
     {
       path: "/register",
@@ -30,12 +34,57 @@ export default new Router({
     {
       path: "/profile",
       name: "profile",
-      component: Profile
+      component: Profile,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('token');
+        if (!token) {
+          next('/login');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: "/chat",
       name: "posts",
-      component: Posts
-    }
+      component: Posts,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('token');
+        if (!token) {
+          next('/login');
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: "/admin",
+      name: "users",
+      component: Users,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('token');
+
+        if (!token) {
+          next('/login');
+        } else {
+          axios.get('http://localhost:3000/api/auth/me', {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          }).then(res => {
+            let isAdmin = res.data.isAdmin;
+            if (isAdmin == true) {
+              next()
+            } else {
+              next({
+                name: 'posts'
+              })
+            }
+          })
+        }
+
+      }
+    },
+
   ]
 });

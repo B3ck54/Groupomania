@@ -14,16 +14,34 @@ export default new Vuex.Store({
       token: null,
       isAdmin: false
     },
+    users: [],
     errors: [],
     posts: [], //nos futurs posts
     message: "",
   },
   getters: {
+    posts(state) {
+      return state.posts;
+    },
+    post(state) {
+      return state.post;
+    },
+    users(state) {
+      return state.users;
+    },
+    user(state) {
+      return state.user;
+    },
+    error(state) {
+      return state.error;
+    },
+    message(state) {
+      return state.error;
+    },
   },
   mutations: {
     DELETE_TOKEN(state) {
       state.token = null;
-      state.isLoggedIn = false;
     },
     LOG_OUT(state) {
       localStorage.removeItem('token');
@@ -42,12 +60,15 @@ export default new Vuex.Store({
       state.errors = [error, ...state.errors];
     },
     GET_USER(state, [username, userId, email, isAdmin]) {
-      state.user.username = username,
+        state.user.username = username,
         state.user.userId = userId,
         state.user.email = email,
         state.user.token = localStorage.getItem('token'),
-        state.user.isAdmin = isAdmin
-    } 
+        state.user.isAdmin = isAdmin;
+    },
+    GET_USERS(state, users) {
+      state.users = users;
+    },
   },
   actions: {
     //users
@@ -95,8 +116,21 @@ export default new Vuex.Store({
           };
           commit("GET_ERROR", error);
         });
-    }
-    
+    },
+    getUsers({ commit }) {
+      userService
+        .getUsers()
+        .then(res => {
+          commit("GET_USERS", res.data);
+        })
+        .catch(err => {
+          const error = {
+            date: new Date(),
+            message: `failed to retrieve users: ${err.message}`
+          };
+          commit("GET_ERROR", error);
+        });
+    },
   },
   modules: {
   }
