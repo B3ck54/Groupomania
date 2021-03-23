@@ -38,7 +38,7 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         let token = localStorage.getItem('token');
         if (!token) {
-          next('/login');
+          next('/');
         } else {
           next();
         }
@@ -51,7 +51,7 @@ export default new Router({
       beforeEnter: (to, from, next) => {
         let token = localStorage.getItem('token');
         if (!token) {
-          next('/login');
+          next('/');
         } else {
           next();
         }
@@ -65,7 +65,7 @@ export default new Router({
         let token = localStorage.getItem('token');
 
         if (!token) {
-          next('/login');
+          next('/');
         } else {
           axios.get('http://localhost:3000/api/auth/me', {
             headers: {

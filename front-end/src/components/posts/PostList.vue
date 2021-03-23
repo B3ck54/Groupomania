@@ -52,14 +52,14 @@
           </v-row>
           <!-- <Comments />  v-for comment in comments ...-->
           <v-card class="pa-2">
-            <v-row align="center">
+            <!-- <v-row align="center">
               <v-col cols="4" align="left" class="ml-3">
                 <Profile />
               </v-col>
               <v-col cols="7" align="left">
                 <span>Bravo c'est super !!!</span>
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-card>
         </v-card>
       </v-col>
@@ -70,7 +70,6 @@
 <script>
 import Profile from "../user/Profile";
 import { mapState } from "vuex";
-import axios from "axios";
 
 export default {
   components: {
@@ -86,18 +85,7 @@ export default {
     ...mapState(["user"])
   },
   methods: {
-    next(page) {
-      axios
-        .get("http://localhost:3000/api/posts", page)
-        .then((response) => {
-          this.posts = response.data.posts;
-          console.log(this.posts);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-  },
+  }
 };
 </script>
 
