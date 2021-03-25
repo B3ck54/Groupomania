@@ -1,20 +1,9 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
-const db = require('../config/db.config.js');
-
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      models.User.hasMany(models.Post);
-      models.User.hasMany(models.Comment);    }
-  };
-  User.init({
+  const User = sequelize.define("User", {
     id: {
       type: DataTypes.INTEGER(11).UNSIGNED,
-      allowNull:     false,
-      primaryKey:    true,
+      allowNull: false,
+      primaryKey: true,
       autoIncrement: true,
     },
     email: {
@@ -36,9 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false,
     }
-  }, {
-    sequelize,
-    modelName: 'User',
+    
   });
+
+ 
   return User;
 };

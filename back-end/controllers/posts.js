@@ -6,11 +6,12 @@ const jwt = require('jsonwebtoken');
 const fs = require("fs");
 
 const db = require('../config/db.config.js');
-const User = require('../models/User.js');
-const {
-  user
-} = require('../config/db.config.js');
+const { user } = require('../config/db.config.js');
+
 const Post = db.posts;
+
+const User = db.user;
+const Answer = db.answers;
 
 exports.createPost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
@@ -33,7 +34,27 @@ exports.createPost = (req, res, next) => {
 
 
 exports.getAllPosts = (req, res, next) => {
-  Post.findAll().then(post => {
+  Post.findAll({
+    attributes: ["id", "message", "imageUrl", "createdAt"],
+    order: [["createdAt", "DESC"]],
+    include: [
+      {
+        model: User,
+        attributes: ["username", "id"],
+      },
+      {
+        model: Answer,
+        attributes: ["comment", "username", "UserId", "id"],
+        order: [
+          ["createdAt", "DESC"]
+        ],
+        include: [{
+          model: User,
+          attributes: ["username"],
+        }, ],
+      },
+    ],
+  }).then(post => {
     // Send all posts to Client
     res.send(post);
   }).catch(err => {
@@ -118,3 +139,35 @@ exports.deletePost = (req, res, next) => {
       error: error.message
     }))
 };
+exports.createAnswer = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+  const userId = decodedToken.userId;
+  Answer.create({
+          PostId: req.params.id,
+    ...req.body,
+          UserId: userId,
+      })
+      .then(answer => {
+          res.send(answer);
+      }).catch(err => {
+          res.status(500).send("Error -> " + err);
+      })
+};
+
+exports.deleteAnswer = async (req, res, next) => {
+  const where = {
+      _id: req.params.id
+  }
+  Answer.destroy({
+      where
+  })
+  then(() =>
+          res.status(200).json({
+              message: 'Answer has been deleted'
+          })
+      )
+      .catch(error => res.status(400).json({
+          error
+      }))
+}

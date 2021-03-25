@@ -21,8 +21,8 @@ exports.signup = (req, res, next) => {
           message: `Utilisateur créé !`,
           userId: user.id,
           token: jwt.sign({
-              userId: user.id
-            },
+            userId: user.id
+          },
             process.env.JWT_TOKEN_SECRET, {
               expiresIn: '1h'
             }
@@ -58,11 +58,11 @@ exports.login = (req, res, next) => {
             });
           }
           res.status(200).json({
-            userId: user.id,
+            UserId: user.id,
             isAdmin: user.isAdmin,
             user: user,
             token: jwt.sign({
-                userId: user.id
+              user_id: user.id
               },
               process.env.JWT_TOKEN_SECRET, {
                 expiresIn: '1h'
