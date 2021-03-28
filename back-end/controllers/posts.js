@@ -152,7 +152,8 @@ exports.createAnswer = (req, res, next) => {
   const userId = decodedToken.user_id;
   Answer.create({
       PostId: req.params.id,
-      ...req.body,
+      username: req.body.commentUsername,
+      comment: req.body.comment,
       UserId: userId,
     })
     .then(answer => {
@@ -164,17 +165,29 @@ exports.createAnswer = (req, res, next) => {
 
 exports.deleteAnswer = async (req, res, next) => {
   const where = {
-    _id: req.params.id
+    id: req.params.id
   }
-  Answer.destroy({
-    where
-  })
-  then(() =>
-      res.status(200).json({
-        message: 'Answer has been deleted'
-      })
-    )
-    .catch(error => res.status(400).json({
-      error
-    }))
+  Answer.findOne({
+      where
+    })
+    .then(answer => {
+      if (!answer) {
+        res.status(400).json({
+          error: "Unauthorized"
+        })
+      }
+      answer
+        .destroy()
+        .then(() =>
+          res.status(200).json({
+            message: 'Answer has been deleted'
+          })
+        )
+        .catch(err => {
+          res.status(500).send("Error -> " + err);
+        })
+    })
 }
+
+
+  

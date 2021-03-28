@@ -1,8 +1,6 @@
 <template>
-  <v-container fluid>
-    <v-row justify="center" class="text-center">
-      <v-col>
-        <v-card class="mb-8" color="secondary">
+   
+        <v-card class=" mt-8 mb-8" color="secondary">
             <v-row align="center" class="pa-6">
               <v-col cols="10" class="text-left">
                 Écrivez quelque chose <strong>{{ user.username }} !</strong>
@@ -40,9 +38,7 @@
               </v-col>
             </v-row>
         </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+
 </template>
 
 

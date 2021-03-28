@@ -10,8 +10,8 @@ export default {
       }
     })
   },
-  getPost(post) {
-    return http.get("/posts", post.id, {
+  getPost(id) {
+    return http.get("/posts", id, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
       }
@@ -24,8 +24,8 @@ export default {
       }
     })
   },
-  addAnswer(post) {
-    return http.post("posts/", post.id, "/answers", post, {
+  addAnswer(id, post) {
+    return http.post("posts/", id, "/answers", post, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
       }
