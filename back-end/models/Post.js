@@ -14,6 +14,5 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     }
   });
-
   return Post;
 };

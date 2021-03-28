@@ -19,10 +19,10 @@ exports.signup = (req, res, next) => {
       user.save()
         .then(() => res.status(201).json({
           message: `Utilisateur créé !`,
-          userId: user.id,
+          user: user,
           token: jwt.sign({
-            userId: user.id
-          },
+            user_id: user.id
+            },
             process.env.JWT_TOKEN_SECRET, {
               expiresIn: '1h'
             }
@@ -62,7 +62,7 @@ exports.login = (req, res, next) => {
             isAdmin: user.isAdmin,
             user: user,
             token: jwt.sign({
-              user_id: user.id
+                user_id: user.id
               },
               process.env.JWT_TOKEN_SECRET, {
                 expiresIn: '1h'
@@ -91,12 +91,14 @@ exports.getAllUsers = (req, res, next) => {
 exports.getProfile = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
   const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
-  const id = decodedToken.userId;
+  const userId = decodedToken.user_id;
+
+
   User.findOne({
     attributes: ['id', 'email', 'username', 'isAdmin'],
     where: {
-      id: id
-    }
+       id: userId,
+    },
   }).then(user => {
     res.send(user);
   }).catch(err => {

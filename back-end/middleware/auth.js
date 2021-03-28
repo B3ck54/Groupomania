@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1]; // récupére le token dans le header autorization
     const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
-    const userId = decodedToken.userId;
+    const userId = decodedToken.user_id;
     if (req.body.userId && req.body.userId !== userId) {
       throw 'Invalid user ID';
     } else {

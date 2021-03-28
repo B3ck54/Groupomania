@@ -5,7 +5,7 @@ import vuetify from './plugins/vuetify';
 import Vuex from 'vuex';
 import store from './store';
 
-import '@babel/polyfill'
+import '@babel/polyfill';
 
 
 Vue.config.productionTip = false;

@@ -7,7 +7,7 @@
           Écrivez le premier post !!!
         </h2>
         <CreatePost />
-        <PostList />
+        <PostList/>
       </v-col>
     </v-row>
   </v-container>
@@ -25,14 +25,15 @@ export default {
   },
   created() {
     this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api
-    this.$store.dispatch("getUser");
+    // this.$store.dispatch("getUser");
   },
   computed: {
     posts() {
-      return this.$store.state.posts; //cette computed va écouter le store
+      return this.$store.state.posts;
+      //cette computed va écouter le store
     },
   },
-  methods: {},
+  
 };
 </script>
 

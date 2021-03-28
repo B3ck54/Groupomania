@@ -6,7 +6,12 @@ const jwt = require('jsonwebtoken');
 const fs = require("fs");
 
 const db = require('../config/db.config.js');
-const { user } = require('../config/db.config.js');
+const {
+  user
+} = require('../config/db.config.js');
+const {
+  post
+} = require('../config/db.config.js');
 
 const Post = db.posts;
 
@@ -16,7 +21,8 @@ const Answer = db.answers;
 exports.createPost = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
   const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
-  const userId = decodedToken.userId;
+  const userId = decodedToken.user_id;
+
   // Save to MySQL database
   Post.create({
     ...req.body,
@@ -31,16 +37,15 @@ exports.createPost = (req, res, next) => {
   })
 };
 
-
-
 exports.getAllPosts = (req, res, next) => {
   Post.findAll({
     attributes: ["id", "message", "imageUrl", "createdAt"],
-    order: [["createdAt", "DESC"]],
-    include: [
-      {
+    order: [
+      ["createdAt", "DESC"]
+    ],
+    include: [{
         model: User,
-        attributes: ["username", "id"],
+        attributes: ["id", "username"],
       },
       {
         model: Answer,
@@ -92,18 +97,20 @@ exports.editPost = (req, res, next) => {
     }
   }
   Post.update({
-    ...postObject
-  }, {
-    where: {
-      id: req.params.id
-    }
-  }).then(post => {
-    res.send(post);
-  }).catch(err => {
-    res.status(500).send("Error -> " + err);
-  })
+      ...postObject
+    }, {
+      where: {
+        id: req.params.id
+      }
+    }).then(() =>
+      res.status(200).json({
+        message: 'Post has been updated'
+      })
+    )
+    .catch(err => {
+      res.status(400).send("Error -> " + err);
+    })
 };
-
 exports.deletePost = (req, res, next) => {
 
   //Attention à corriger !!!!! supprime les posts sur n'importe quel id
@@ -114,26 +121,26 @@ exports.deletePost = (req, res, next) => {
       where
     })
     .then(post => {
-      const filename = post.imageUrl.split('/images/')[1];
-      fs.unlink(`images/${filename}`, () => {
+      // const filename = post.imageUrl.split('./images/')[1];
+      // fs.unlink(`images/${filename}`, () => {
 
-        if (!post) {
-          res.status(400).json({
-            error: "Unauthorized"
+      if (!post) {
+        res.status(400).json({
+          error: "Unauthorized"
+        })
+      }
+      post
+        .destroy()
+        .then(() =>
+          res.status(200).json({
+            message: 'Post has been deleted'
           })
-        }
-        post
-          .destroy()
-          .then(() =>
-            res.status(200).json({
-              message: 'Post has been deleted'
-            })
-          )
-          .catch(error => res.status(400).json({
-            error
-          }))
-      })
+        )
+        .catch(error => res.status(400).json({
+          error
+        }))
     })
+    // })
 
     .catch(error => res.status(500).json({
       error: error.message
@@ -142,32 +149,32 @@ exports.deletePost = (req, res, next) => {
 exports.createAnswer = (req, res, next) => {
   const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
   const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
-  const userId = decodedToken.userId;
+  const userId = decodedToken.user_id;
   Answer.create({
-          PostId: req.params.id,
-    ...req.body,
-          UserId: userId,
-      })
-      .then(answer => {
-          res.send(answer);
-      }).catch(err => {
-          res.status(500).send("Error -> " + err);
-      })
+      PostId: req.params.id,
+      ...req.body,
+      UserId: userId,
+    })
+    .then(answer => {
+      res.send(answer);
+    }).catch(err => {
+      res.status(500).send("Error -> " + err);
+    })
 };
 
 exports.deleteAnswer = async (req, res, next) => {
   const where = {
-      _id: req.params.id
+    _id: req.params.id
   }
   Answer.destroy({
-      where
+    where
   })
   then(() =>
-          res.status(200).json({
-              message: 'Answer has been deleted'
-          })
-      )
-      .catch(error => res.status(400).json({
-          error
-      }))
+      res.status(200).json({
+        message: 'Answer has been deleted'
+      })
+    )
+    .catch(error => res.status(400).json({
+      error
+    }))
 }

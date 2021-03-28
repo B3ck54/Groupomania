@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pa-0">
-    <v-row justify="center" >
+    <v-row justify="center">
       <v-col cols="8">
         <v-avatar size="200" color="grey lighten-4">
           <img
@@ -12,12 +12,40 @@
     </v-row>
     <v-row justify="center">
       <v-col cols="6">
-        <v-btn color="primary" class="ma-2 white--text" fab>
-          <v-icon>edit</v-icon>
-        </v-btn>
-        <v-btn color="error" class="ma-2 white--text" fab>
-          <v-icon>delete</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="secondary"
+              class="ma-2 white--text"
+              small
+              depressed
+              fab
+              v-bind="attrs"
+              v-on="on"
+              @click="getUser(user.id)"
+            >
+              <v-icon>edit</v-icon>
+            </v-btn>
+          </template>
+          <span>Éditer</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="error"
+              class="ma-2 white--text"
+              small
+              depressed
+              fab
+              v-bind="attrs"
+              v-on="on"
+              @click="deleteUser(user)"
+            >
+              <v-icon>delete</v-icon>
+            </v-btn>
+          </template>
+          <span>Supprimer</span>
+        </v-tooltip>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -31,12 +59,28 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
+
 export default {
   mounted() {
     this.$store.dispatch("getUser");
   },
   computed: {
     ...mapState(["user"]),
+  },
+  methods: {
+    getUser(id) {
+      this.$router.push(`user/${id}`);
+    },
+    deleteUser(user) {
+      axios
+        .delete("http://localhost:3000/api/auth/user/" + user.id, {
+          headers: { Authorization: "Bearer " + localStorage.token },
+        })
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
+          this.$store.dispatch("logOut");
+    },
   },
 };
 </script>

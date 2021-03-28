@@ -25,39 +25,34 @@ db.posts = require('../models/Post.js')(sequelize, Sequelize);
 db.answers = require('../models/Answer.js')(sequelize, Sequelize);
 
 /**ANSWERS */
+
 db.answers.belongsTo(db.user, {
   foreignKey: 'UserId',
-  targetKey: 'id'
+  onDelete: 'CASCADE',
 });
 db.answers.belongsTo(db.posts, {
   foreignKey: 'PostId',
-  targetKey: 'id'
+  onDelete: 'CASCADE',
 });
 
 
 /**POST */
 db.posts.belongsTo(db.user, {
   foreignKey: 'UserId',
-  targetKey: 'id'
-}, {
-  onDelete: 'cascade'
+  // targetKey: 'id', 
+  onDelete: 'CASCADE',
 });
 db.posts.hasMany(db.answers, {
   foreignKey: 'PostId',
-  sourceKey: 'id'
+  sourceKey: 'id' 
 });
-
-
-
-// db.posts.belongsTo(db.comments, {
-//   foreignKey: 'AnswerId',
-//   targetKey: 'id'
-// });
 
 /**USER */
 db.user.hasMany(db.answers, {
   foreignKey: 'UserId',
-  sourceKey: 'id'
+  sourceKey: 'id'}, {
+    onDelete: 'CASCADE',
+    hooks: true
 });
 db.user.hasMany(db.posts, {
   foreignKey: 'UserId',
