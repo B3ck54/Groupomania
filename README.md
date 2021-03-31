@@ -33,4 +33,11 @@ http://localhost:3000/
 You can start back-end and front-end at the same time
 
  	npm start
+	
+	# Enviroment
+
+
+ 🚀 **Start Back-end & Front-end**
+
+https://documenter.getpostman.com/view/7154853/TzCMcngx
 
