@@ -35,7 +35,7 @@ You can start back-end and front-end at the same time
  	npm start
 	
 
- ![alt text](https://blog.jeremylandon.com/images/logo/postman.png) **DOCUMENTATION API**
+ ![alt text](https://lh3.googleusercontent.com/v_bN4wSYKVT8ZX4y7SqTxfD-eFtfL4Df5puacRU3wDu9JX9kNM9OK3XmplVuJK4q-yhr-r0d-3z3shp8GVc0iYY1=w128-h128-e365-rj-sc0x00ffffff) **DOCUMENTATION API**
 
 https://documenter.getpostman.com/view/7154853/TzCMcngx
 
