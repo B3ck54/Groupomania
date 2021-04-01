@@ -3,7 +3,11 @@ const {
   json
 } = require('body-parser');
 const jwt = require('jsonwebtoken');
+const fs = require("fs");
 
+const {
+  user
+} = require('../config/db.config.js');
 const db = require('../config/db.config.js');
 const User = db.user;
 
@@ -21,7 +25,7 @@ exports.signup = (req, res, next) => {
           message: `Utilisateur créé !`,
           user: user,
           token: jwt.sign({
-            user_id: user.id
+              user_id: user.id
             },
             process.env.JWT_TOKEN_SECRET, {
               expiresIn: '1h'
@@ -95,9 +99,9 @@ exports.getProfile = (req, res, next) => {
 
 
   User.findOne({
-    attributes: ['id', 'email', 'username', 'isAdmin'],
+    attributes: ['id', 'email', 'username', 'isAdmin', 'imageUrl'],
     where: {
-       id: userId,
+      id: userId,
     },
   }).then(user => {
     res.send(user);
@@ -106,8 +110,31 @@ exports.getProfile = (req, res, next) => {
   })
 }
 exports.editProfile = (req, res, next) => {
+  
+  const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
+  const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+  const userId = decodedToken.user_id;
+  
   let userObject = {};
 
+  if (req.file) {
+    User.findOne({
+        id: req.params.userId
+      })
+      .then((user) => {
+          const filename = user.imageUrl.split('/images/')[1]
+          fs.unlinkSync(`images/${filename}`)
+      })
+
+    userObject = {
+      ...JSON.parse(req.body.user),
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    }
+  } else {
+    userObject = {
+      ...req.body
+    }
+  }
   User.update({
     ...userObject
   }, {
@@ -115,23 +142,55 @@ exports.editProfile = (req, res, next) => {
       id: req.params.userId // id qui est égale à l'id dans les paramètres de requêtes
     }
   }).then(() => {
-    res.status(200).send('Profil mis à jour');
+    res.status(200).send('Profile has been updated');
   }).catch(err => {
     res.status(500).send("Error -> " + err);
   })
 };
 
-//
 
 exports.deleteUser = (req, res) => {
   const id = req.params.userId;
-  User.destroy({
-    where: {
-      id: id
-    }
-  }).then(() => {
-    res.status(200).send('Compte supprimé');
-  }).catch(err => {
-    res.status(500).send("Error -> " + err);
-  });
+  User.findOne({
+      where: {
+        id: id
+      }
+    })
+    .then(user => {
+      if (user.imageUrl) {
+        const filename = user.imageUrl.split('./images/')[1];
+        fs.unlink(`images/${filename}`, () => {
+          user.destroy({
+              where: {
+                id: id
+              }
+            })
+            .then(() =>
+              res.status(200).json({
+                message: 'User has been deleted'
+              })
+            )
+            .catch(error => res.status(400).json({
+              error
+            }))
+        })
+      } else {
+        user.destroy({
+            where: {
+              id: id
+            }
+          })
+          .then(() =>
+            res.status(200).json({
+              message: 'User has been deleted'
+            })
+          )
+          .catch(error => res.status(400).json({
+            error
+          }))
+      }
+    })
+    .catch(error => res.status(500).json({
+      error: error.message
+    }))
 };

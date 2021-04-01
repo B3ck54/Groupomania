@@ -121,26 +121,44 @@ exports.deletePost = (req, res, next) => {
       where
     })
     .then(post => {
-      // const filename = post.imageUrl.split('./images/')[1];
-      // fs.unlink(`images/${filename}`, () => {
+      if (post.imageUrl) {
+        const filename = post.imageUrl.split('./images/')[1];
+        fs.unlink(`images/${filename}`, () => {
 
-      if (!post) {
-        res.status(400).json({
-          error: "Unauthorized"
+          if (!post) {
+            res.status(400).json({
+              error: "Unauthorized"
+            })
+          }
+          post
+            .destroy()
+            .then(() =>
+              res.status(200).json({
+                message: 'Post has been deleted'
+              })
+            )
+            .catch(error => res.status(400).json({
+              error
+            }))
         })
-      }
-      post
-        .destroy()
-        .then(() =>
-          res.status(200).json({
-            message: 'Post has been deleted'
+      } else {
+        if (!post) {
+          res.status(400).json({
+            error: "Unauthorized"
           })
-        )
-        .catch(error => res.status(400).json({
-          error
-        }))
+        }
+        post
+          .destroy()
+          .then(() =>
+            res.status(200).json({
+              message: 'Post has been deleted'
+            })
+          )
+          .catch(error => res.status(400).json({
+            error
+          }))
+      }
     })
-    // })
 
     .catch(error => res.status(500).json({
       error: error.message
@@ -152,7 +170,7 @@ exports.createAnswer = (req, res, next) => {
   const userId = decodedToken.user_id;
   Answer.create({
       PostId: req.params.id,
-      username: req.body.commentUsername,
+      username: req.body.username,
       comment: req.body.comment,
       UserId: userId,
     })
@@ -188,6 +206,3 @@ exports.deleteAnswer = async (req, res, next) => {
         })
     })
 }
-
-
-  

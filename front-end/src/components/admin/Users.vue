@@ -7,8 +7,8 @@
             <thead>
               <tr class="text-left">
                 <th>id</th>
-                <th>username</th>
-                <th>email</th>
+                <th>Pseudo</th>
+                <th>Email</th>
               </tr>
             </thead>
             <tbody v-if="$store.state.users">

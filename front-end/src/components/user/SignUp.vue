@@ -8,14 +8,14 @@
             :rules="[rules.email]"
             filled
             color="deep-purple"
-            label="Email address"
+            label="Email"
             type="email"
           ></v-text-field>
            <v-text-field
             v-model="username"
             filled
             color="deep-purple"
-            label="Username"
+            label="Pseudo"
             type="username"
           ></v-text-field>
           <v-text-field
@@ -24,25 +24,10 @@
             filled
             color="deep-purple"
             counter="6"
-            label="Password"
+            label="Mot de passe"
             style="min-height: 96px"
             type="password"
           ></v-text-field>
-          <v-checkbox
-            v-model="agreement"
-            :rules="[rules.required]"
-            color="deep-purple"
-          >
-            <template v-slot:label>
-              I agree to the&nbsp;
-              <a href="#" @click.stop.prevent="dialog = true"
-                >Terms of Service</a
-              >
-              &nbsp;and&nbsp;
-              <a href="#" @click.stop.prevent="dialog = true">Privacy Policy</a
-              >*
-            </template>
-          </v-checkbox>
           <v-btn @click="saveUser">Submit</v-btn>
         </v-form>
       </v-col>

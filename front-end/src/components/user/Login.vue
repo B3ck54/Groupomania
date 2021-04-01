@@ -2,14 +2,15 @@
   <v-row id="login">
     <v-spacer />
     <v-col cols="6">
-      <v-form ref="form" v-model="form">
+      <v-form ref="form" v-model="form" @submit.prevent="onSubmit">
         <v-text-field
           v-model="dataLogin.email"
           :rules="[rules.email]"
           filled
           color="deep-purple"
-          label="Email address"
+          label="Email"
           type="email"
+          required
         ></v-text-field>
         <v-text-field
           v-model="dataLogin.password"
@@ -20,6 +21,7 @@
           label="Password"
           style="min-height: 96px"
           type="password"
+          required
         ></v-text-field>
         <p class="mt-n2 text-error">{{ errorMessage }}</p>
       </v-form>
@@ -82,6 +84,8 @@ export default {
           } else {
             localStorage.setItem("token", token);
             router.push({ name: "posts" });
+                  window.location.reload();
+
           }
         })
         .catch(() => {

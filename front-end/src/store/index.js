@@ -88,7 +88,7 @@ export default new Vuex.Store({
     },
     GET_USERS(state, users) {
       state.users = users;
-    },
+    }
   },
   actions: {
     //token
@@ -153,11 +153,11 @@ export default new Vuex.Store({
       axios
         .post(
           `http://localhost:3000/api/posts/${post.id}/answers`,
-          post.data, 
-           { headers: {
+          post.data, {
+            headers: {
               Authorization: "Bearer " + localStorage.getItem("token")
             }
-           }
+          }
         )
         .then((response) => {
           const answer = response.data;
@@ -206,7 +206,7 @@ export default new Vuex.Store({
           };
           commit("GET_ERROR", error);
         });
-    },
+    }
   },
   modules: {}
 })

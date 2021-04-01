@@ -2,7 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "./components/user/Login.vue";
 import SignUp from "./components/user/SignUp.vue";
-import Profile from "./components/user/UpdateProfile.vue";
+import Profile from "./components/user/Profile.vue";
 import Posts from "./components/posts/Posts.vue";
 import Users from "./components/admin/Users.vue";
 

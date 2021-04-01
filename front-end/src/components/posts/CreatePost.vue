@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mt-8 mb-8" color="secondary">
+  <v-card class="mt-8 mb-8" color="gray">
     <v-form v-model="valid" @submit.prevent="onSubmit">
       <v-row align="center" class="pa-6">
         <v-col cols="10" class="text-left">
@@ -7,7 +7,7 @@
           <v-text-field
             v-model="message"
             placeholder="Écrivez un post"
-               filled
+            filled
             rounded
             dense
             @keypress.enter="send"
@@ -58,25 +58,23 @@ export default {
     uploadImage() {
       const file = this.$refs.file.files[0];
       this.file = file;
-
-      // window.console.log(file);
     },
     send() {
       const formData = new FormData();
       formData.append("message", this.message);
-      // if (this.link !== null) {
-      //   formData.append("link", this.link);
-      // }
+
       if (this.file !== null) {
         formData.append("image", this.file);
       }
-      // console.log(this.post);
-      this.$store.dispatch("createPost", formData); //recevra un payload ici le post
+      this.$store.dispatch("createPost", formData);
       window.location.reload();
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
+input, select, textarea{
+    color: #000000;
+}
 </style>

@@ -36,7 +36,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   justify-content: center;
-  color: #ff6702f8;
 }
 #home {
   margin-top: 60px;

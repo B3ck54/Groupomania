@@ -1,7 +1,7 @@
 <template>
   <v-toolbar elevation color="primary">
-    <v-toolbar-title align="center">
-      <a
+    <v-toolbar-title align="center"
+      ><a
         :href="redirect"
         class="d-flex align-center"
         style="text-decoration: 'none'"
@@ -11,57 +11,144 @@
           alt="Groupomania"
           contain
           height="250px"
-        />
-      </a>
+        /> </a
+    ></v-toolbar-title>
+    <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-sm-and-down">
+      <v-btn
+        text
+        class="mr-5"
+        dark
+        v-if="loggedIn == false"
+        @click="redirectToRegister()"
+      >
+        <span>Inscription</span>
+        <v-icon>account_circle</v-icon>
+      </v-btn>
+      <v-btn
+        text
+        class="mr-5"
+        v-if="loggedIn == true"
+        @click="redirectToProfile()"
+      >
+        <span>Mon Profil</span>
+        <v-icon>person</v-icon>
+      </v-btn>
+
+      <v-btn
+        text
+        class="mr-5"
+        v-if="loggedIn == true"
+        @click="redirectToPost()"
+      >
+        <span>Chat</span>
+        <v-icon>chat</v-icon>
+      </v-btn>
+
+      <v-btn
+        text
+        class="mr-5"
+        v-if="loggedIn == true && user.isAdmin == true"
+        @click="redirectToAdmin()"
+      >
+        <span>Admin</span>
+        <v-icon>security</v-icon>
+      </v-btn>
+
+      <v-btn text @click="logout()" v-if="loggedIn == true">
+        <span>Déconnexion</span>
+        <v-icon>logout</v-icon>
+      </v-btn>
+    </v-toolbar-items>
+    <v-menu bottom left z-index="9">
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="hidden-md-and-up" v-on="on">
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn
+              text
+              class="mr-5"
+              v-if="loggedIn == false"
+              @click="redirectToRegister()"
+            >
+              <span>Inscription</span>
+              <v-icon>account_circle</v-icon>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn
+              text
+              class="mr-5"
+              @click="redirectToAdmin()"
+              v-if="loggedIn == true && user.isAdmin == true"
+            >
+              <span>Admin</span>
+              <v-icon>security</v-icon>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn
+              text
+              class="mr-5"
+              v-if="loggedIn == true"
+              @click="redirectToProfile()"
+            >
+              <span>Mon Profil</span>
+              <v-icon>person</v-icon>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn
+              text
+              class="mr-5"
+              v-if="loggedIn == true"
+              @click="redirectToPost()"
+            >
+              <span>Chat</span>
+              <v-icon>chat</v-icon>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+        <v-list-item>
+          <v-list-item-title>
+            <v-btn text @click="logout()" v-if="loggedIn == true">
+              <span>Déconnexion</span>
+              <v-icon>logout</v-icon>
+            </v-btn>
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+  </v-toolbar>
+  <!-- <v-toolbar elevation color="primary">
+    <v-toolbar-title align="center">
+      
     </v-toolbar-title>
 
-    <v-spacer />
+    <v-spacer /> -->
 
-    <!-- <router-link to="/login">
-      <v-btn color="white" text class="mr-5" v-if="user.token == null">
+  <!-- <router-link to="/login">
+      <v-btn  text class="mr-5" v-if="user.token == null">
         <span>Connexion</span>
         <v-icon>login</v-icon>
       </v-btn>
     </router-link> -->
 
-    <router-link to="/register">
-      <v-btn color="white" text class="mr-5" v-if="loggedIn == false">
-        <span>Inscription</span>
-        <v-icon>account_circle</v-icon>
-      </v-btn>
-    </router-link>
-
-    <router-link to="/profile">
-      <v-btn color="white" text class="mr-5" v-if="loggedIn == true">
-        <span>Mon Profil</span>
-        <v-icon>person</v-icon>
-      </v-btn>
-    </router-link>
-
-    <router-link to="/chat">
-      <v-btn color="white" text class="mr-5" v-if="loggedIn == true">
-        <span>Chat</span>
-        <v-icon>chat</v-icon>
-      </v-btn>
-    </router-link>
-
-    <router-link to="/admin">
-      <v-btn
-        color="white"
-        text
-        class="mr-5"
-        v-if="loggedIn == true && user.isAdmin == true"
-      >
-        <span>Admin</span>
-        <v-icon>security</v-icon>
-      </v-btn>
-    </router-link>
-
-    <v-btn color="white" text @click="logout()" v-if="loggedIn == true">
-      <span>Déconnexion</span>
-      <v-icon>logout</v-icon>
-    </v-btn>
-  </v-toolbar>
+  <!-- 
+    </v-btn> -->
+  <!-- </v-toolbar> -->
 </template>
 
 <script>
@@ -74,6 +161,10 @@ export default {
       redirectPosts: "/chat",
     };
   },
+  created() {
+    this.$root.token = this.token;
+  },
+
   computed: {
     ...mapState(["user"]),
     redirect() {
@@ -86,12 +177,23 @@ export default {
     loggedIn() {
       return this.$store.getters.token;
     },
-
   },
   methods: {
+    redirectToAdmin() {
+      this.$router.push(`admin`);
+    },
+    redirectToProfile() {
+      this.$router.push(`profile`);
+    },
+    redirectToRegister() {
+      this.$router.push(`register`);
+    },
+    redirectToPost() {
+      this.$router.push(`chat`);
+    },
     logout() {
       this.$store.dispatch("logOut");
-    }
+    },
   },
 };
 </script>
