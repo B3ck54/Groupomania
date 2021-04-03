@@ -69,9 +69,9 @@ export default {
       required: (v) => !!v || "Le champ est requis",
     },
   }),
-  created() {
-    this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("dark"));
-  },
+  // created() {
+  //   this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("dark"));
+  // },
   methods: {
     login() {
       axios

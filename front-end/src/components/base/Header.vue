@@ -28,6 +28,7 @@
       <v-btn
         text
         class="mr-5"
+        dark
         v-if="loggedIn == true"
         @click="redirectToProfile()"
       >
@@ -38,6 +39,7 @@
       <v-btn
         text
         class="mr-5"
+        dark
         v-if="loggedIn == true"
         @click="redirectToPost()"
       >
@@ -48,6 +50,7 @@
       <v-btn
         text
         class="mr-5"
+        dark
         v-if="loggedIn == true && user.isAdmin == true"
         @click="redirectToAdmin()"
       >
@@ -55,7 +58,7 @@
         <v-icon>security</v-icon>
       </v-btn>
 
-      <v-btn text @click="logout()" v-if="loggedIn == true">
+      <v-btn text @click="logout()" v-if="loggedIn == true" dark>
         <span>Déconnexion</span>
         <v-icon>logout</v-icon>
       </v-btn>

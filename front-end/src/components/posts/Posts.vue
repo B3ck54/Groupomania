@@ -3,7 +3,7 @@
     <!-- Create post -->
     <v-row justify="center">
       <v-col cols="10" sm="6">
-        <h1 class="mt-n4" color="primary">Bienvenue sur le Forum !</h1>
+        <h1 class="mt-4" color="primary">Bienvenue sur le Forum !</h1>
         <h2 v-if="!posts.length" color="primary">
           Écrivez le premier post !!!
         </h2>
@@ -77,8 +77,11 @@
           <!-- answers -->
           <v-card-actions>
             <v-icon>{{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}</v-icon>
-            <v-btn @click="show = !show" text small>
-              Voir les commentaires</v-btn
+             <v-btn @click="show = !show" v-if="post.Answers.length == 0" text small>
+             Commenter</v-btn
+            >
+            <v-btn  v-else @click="show = !show" text small>
+              {{ post.Answers.length}} commentaire(s)</v-btn
             >
           </v-card-actions>
           <v-expand-transition>
@@ -97,10 +100,10 @@
                   </v-col>
                   <v-col cols="7" align="left">
                     <p class="caption">
-                      {{ answer.User.username }} a commenté ce post
+                      {{ answer.username }} a commenté ce post
                       {{ answer.createdAt | moment }}
                     </p>
-                    <p>{{ answer.comment }}</p>
+                    <p class="caption">{{ answer.comment }}</p>
                   </v-col>
                   <v-col
                     cols="2"
@@ -139,13 +142,14 @@
                       rounded
                       dense
                       v-model="data.comment"
-                      lazy-validation
+                      auto-grow
                     >
                     </v-text-field>
                     <v-btn
                       @click="onSubmitAnswer(post.id)"
                       :disabled="!valid"
                       small
+
                       >Poster</v-btn
                     >
                   </v-form>
@@ -182,12 +186,9 @@ export default {
       valid: false,
     };
   },
-  beforUpdate() {
-    this.$store.state.user;
-    this.$store.getters.token;
 
-  },
   created() {
+    this.$store.state.user.username;
     this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api
   },
   filters: {
@@ -212,17 +213,14 @@ export default {
         .catch((err) => console.log(err));
       window.location.reload();
     },
-    getPost(id) {
-      this.$router.push(`posts/${id}`);
-    },
     onSubmitAnswer(id) {
-      // this.$store.dispatch("getPosts");
+      this.$store.dispatch("getPosts");
       this.$store.dispatch("addAnswer", {
         id: id,
         data: this.data,
       });
-      this.data.comment = "";
-      // this.$store.dispatch("getPost", this.post.id);
+      window.location.reload();
+
     },
     deleteAnswer(answer) {
       http

@@ -4,13 +4,13 @@
       <div height="80px">
         <Header />
       </div>
-      <v-switch
+      <!-- <v-switch
         v-model="$vuetify.theme.dark"
         inset
         label="Theme Dark"
         persistent-hint
         class="ml-10"
-      ></v-switch>
+      ></v-switch> -->
 
       <router-view />
     </v-app>

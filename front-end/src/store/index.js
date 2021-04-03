@@ -74,11 +74,9 @@ export default new Vuex.Store({
     },
     CREATE_POST(state, post) {
       state.posts = [post, ...state.posts];
-      state.message = "post créé";
     },
     ADD_ANSWER(state, answer) {
       state.posts = [answer, ...state.posts];
-      state.message = "post commenté";
     },
     GET_ERROR(state, error) {
       state.errors = [error, ...state.errors];
@@ -127,8 +125,8 @@ export default new Vuex.Store({
     getPost({
       commit
     }, id) {
-      postService.getPost(id).then((response) => {
-        const post = response.data;
+      postService.getPost(id).then((res) => {
+        const post = res.data;
         commit("GET_POST", post);
       });
     },
