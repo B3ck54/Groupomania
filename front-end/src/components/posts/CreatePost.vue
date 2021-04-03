@@ -5,6 +5,7 @@
         <v-col cols="10" class="text-left">
           Écrivez quelque chose <strong>{{ user.username }} !</strong>
           <v-text-field
+          class="mt-4"
             v-model="message"
             placeholder="Écrivez un post"
             filled
@@ -76,5 +77,7 @@ export default {
 <style lang="css" scoped>
 input, select, textarea{
     color: #000000;
+    background-color: orangered;
+    font-size:12px;
 }
 </style>

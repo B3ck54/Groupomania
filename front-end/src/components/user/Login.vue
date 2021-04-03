@@ -1,4 +1,10 @@
 <template>
+<v-container fluid>
+  <v-row>
+    <v-col>
+      <img src="../../assets/icon-above-font.svg" alt="logo-groupomania" width="20%" />
+    </v-col>
+  </v-row>
   <v-row id="login">
     <v-spacer />
     <v-col cols="6">
@@ -7,7 +13,7 @@
           v-model="dataLogin.email"
           :rules="[rules.email]"
           filled
-          color="deep-purple"
+          color="primary"
           label="Email"
           type="email"
           required
@@ -16,7 +22,7 @@
           v-model="dataLogin.password"
           :rules="[rules.password, rules.length(6)]"
           filled
-          color="deep-purple"
+          color="primary"
           counter="6"
           label="Password"
           style="min-height: 96px"
@@ -28,7 +34,7 @@
       <v-btn @click="login">Connexion</v-btn>
       <v-col>
         <router-link to="/register">
-          <v-btn color="white" text>
+          <v-btn text>
             <span>Pas encore inscrit ?</span>
           </v-btn>
         </router-link>
@@ -36,6 +42,7 @@
     </v-col>
     <v-spacer />
   </v-row>
+</v-container>
 </template>
 
 
@@ -69,9 +76,9 @@ export default {
       required: (v) => !!v || "Le champ est requis",
     },
   }),
-  // created() {
-  //   this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("dark"));
-  // },
+  beforeUpdate(){
+    this.$vuetify.theme.dark = JSON.parse(localStorage.getItem("dark"));
+  },
   methods: {
     login() {
       axios

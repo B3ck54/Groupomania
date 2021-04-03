@@ -1,5 +1,10 @@
 <template>
-  <v-container>
+  <v-container fluid>
+  <v-row>
+    <v-col>
+      <img src="../../assets/icon-above-font.svg" alt="logo-groupomania" width="20%" />
+    </v-col>
+  </v-row>
     <v-row justify="center">
     <v-col cols="8" >
         <v-form ref="form" v-model="form" class="pt-6">
@@ -7,14 +12,14 @@
             v-model="email"
             :rules="[rules.email]"
             filled
-            color="deep-purple"
+            color="primary"
             label="Email"
             type="email"
           ></v-text-field>
            <v-text-field
             v-model="username"
             filled
-            color="deep-purple"
+            color="primary"
             label="Pseudo"
             type="username"
           ></v-text-field>
@@ -22,14 +27,21 @@
             v-model="password"
             :rules="[rules.password, rules.length(6)]"
             filled
-            color="deep-purple"
+            color="primary"
             counter="6"
             label="Mot de passe"
             style="min-height: 96px"
             type="password"
           ></v-text-field>
-          <v-btn @click="saveUser">Submit</v-btn>
+          <v-btn @click="saveUser">S'inscrire</v-btn>
         </v-form>
+        <v-col>
+        <router-link to="/login">
+          <v-btn color="white" text>
+            <span>Vous avez déjà un compte ? Connectez vous ici !</span>
+          </v-btn>
+        </router-link>
+      </v-col>
       </v-col>
     </v-row>
   </v-container>

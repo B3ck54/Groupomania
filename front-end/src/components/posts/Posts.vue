@@ -1,9 +1,14 @@
 <template>
   <v-container>
+     <v-row>
+    <v-col>
+      <img class="mt-n4" src="../../assets/icon.svg" alt="logo-groupomania" width="10%" />
+    </v-col>
+  </v-row>
     <!-- Create post -->
     <v-row justify="center">
       <v-col cols="10" sm="6">
-        <h1 class="mt-4" color="primary">Bienvenue sur le Forum !</h1>
+        <h1 class="mt-n4" color="primary">Bienvenue sur le Forum !</h1>
         <h2 v-if="!posts.length" color="primary">
           Écrivez le premier post !!!
         </h2>
@@ -24,8 +29,8 @@
         >
           <v-row>
             <v-col cols="12">
-              <v-row class="mt-2 ml-8">
-                <v-col cols="2" align="left">
+              <v-row class="mt-2 ml-4">
+                <v-col cols="2" lg="1" md="2" sm="2" xs="2" align="left">
                   <v-avatar size="40" color="grey lighten-4">
                     <img src="../../assets/avatar.png" alt="avatar" />
                   </v-avatar>

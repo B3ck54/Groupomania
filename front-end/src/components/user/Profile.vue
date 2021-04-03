@@ -58,7 +58,7 @@
           <v-text-field
             v-model="user.username"
             filled
-            color="deep-purple"
+            color="primary"
             label="Votre prénom"
             type="username"
           ></v-text-field>
@@ -67,7 +67,7 @@
             v-model="user.email"
             :rules="[rules.email]"
             filled
-            color="deep-purple"
+            color="primary"
             label="Votre email"
             type="email"
           ></v-text-field>
