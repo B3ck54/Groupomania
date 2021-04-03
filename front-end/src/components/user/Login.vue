@@ -84,8 +84,7 @@ export default {
           } else {
             localStorage.setItem("token", token);
             router.push({ name: "posts" });
-                  window.location.reload();
-
+            window.location.reload();
           }
         })
         .catch(() => {

@@ -2,7 +2,7 @@
   <v-container>
     <!-- Create post -->
     <v-row justify="center">
-      <v-col cols="10">
+      <v-col cols="10" sm="6">
         <h1 class="mt-n4" color="primary">Bienvenue sur le Forum !</h1>
         <h2 v-if="!posts.length" color="primary">
           Écrivez le premier post !!!
@@ -14,7 +14,7 @@
 
     <!-- PostList -->
     <v-row justify="center">
-      <v-col cols="10">
+      <v-col cols="10" sm="6">
         <v-card
           v-for="post in posts"
           :key="post.id"
@@ -182,9 +182,10 @@ export default {
       valid: false,
     };
   },
-  beforeUpdate() {
+  beforUpdate() {
     this.$store.state.user;
     this.$store.getters.token;
+
   },
   created() {
     this.$store.dispatch("getPosts"); //dès que le component est créé il va  dispatché l'actions qui permet de récupérer nos posts - il va lancer la requête vers notre api
@@ -230,7 +231,7 @@ export default {
         })
         .then((response) => console.log(response))
         .catch((err) => console.log(err));
-         window.location.reload();
+        window.location.reload();
     },
   },
 };

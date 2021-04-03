@@ -102,7 +102,7 @@
               v-if="loggedIn == true"
               @click="redirectToProfile()"
             >
-              <span>Mon Profil</span>
+              <span >Mon Profil</span>
               <v-icon>person</v-icon>
             </v-btn>
           </v-list-item-title>
@@ -180,19 +180,19 @@ export default {
   },
   methods: {
     redirectToAdmin() {
-      this.$router.push(`admin`);
+      this.$router.push(`admin`).catch((err) => err);
     },
     redirectToProfile() {
-      this.$router.push(`profile`);
+      this.$router.push(`profile`).catch((err) => err);
     },
     redirectToRegister() {
-      this.$router.push(`register`);
+      this.$router.push(`register`).catch((err) => err);
     },
     redirectToPost() {
-      this.$router.push(`chat`);
+      this.$router.push(`chat`).catch((err) => err);
     },
     logout() {
-      this.$store.dispatch("logOut");
+      this.$store.dispatch("logOut").catch((err) => err);
     },
   },
 };

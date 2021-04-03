@@ -18,15 +18,6 @@
                 <td>{{ user.email }}</td>
                 <td>
                   <v-btn
-                    color="primary"
-                    class="ma-2 white--text"
-                    small
-                    depressed
-                    fab
-                  >
-                    <v-icon>edit</v-icon>
-                  </v-btn>
-                  <v-btn
                     v-if="user.isAdmin == false"
                     color="error"
                     class="ma-2 white--text"

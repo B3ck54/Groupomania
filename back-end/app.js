@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const helmet = require("helmet");
 
 app.use(bodyParser.json())
 
@@ -23,7 +24,7 @@ const db = require('../back-end/config/db.config.js');
 //   console.log('Drop and Resync with { force: true }');
 // });
 
-// app.use(helmet());
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');

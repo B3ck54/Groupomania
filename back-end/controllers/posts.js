@@ -170,8 +170,8 @@ exports.createAnswer = (req, res, next) => {
   const userId = decodedToken.user_id;
   Answer.create({
       PostId: req.params.id,
-      username: req.body.username,
       comment: req.body.comment,
+      username: req.body.username,
       UserId: userId,
     })
     .then(answer => {
