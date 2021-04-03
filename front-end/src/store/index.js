@@ -157,13 +157,13 @@ export default new Vuex.Store({
             }
           }
         )
-        .then((response) => {
-          const answer = response.data;
+        .then((res) => {
+          const answer = res.data;
           commit("ADD_ANSWER", answer);
         })
         .then(() => {
-          postService.getPosts().then((response) => {
-            const posts = response.data;
+          postService.getPosts().then((res) => {
+            const posts = res.data;
             commit("GET_POSTS", posts);
           });
         })

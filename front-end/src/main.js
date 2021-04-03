@@ -7,7 +7,6 @@ import store from './store';
 
 import '@babel/polyfill';
 
-
 Vue.config.productionTip = false;
 
 new Vue({

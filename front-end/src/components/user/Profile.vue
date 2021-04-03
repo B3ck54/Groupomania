@@ -36,6 +36,7 @@
               fab
               v-bind="attrs"
               v-on="on"
+              href="javascript:;"
               @click="deleteUser(user)"
             >
               <v-icon>delete</v-icon>
@@ -60,7 +61,6 @@
             color="deep-purple"
             label="Votre prénom"
             type="username"
-            required
           ></v-text-field>
 
           <v-text-field
@@ -89,10 +89,10 @@ export default {
     return {
       edit: false,
       rules: {
-        email: (v) => !!(v || "").match(/@/) || "Please enter a valid email",
+        email: (v) => !!(v || "").match(/@/) || "Cet email n'est pas valide",
         length: (len) => (v) =>
           (v || "").length >= len ||
-          `Invalid character length, required ${len}`,
+          `Caractère et longueur invalide, requis ${len}`,
         required: (v) => !!v || "Le champs est requis",
       },
     };
@@ -121,19 +121,21 @@ export default {
             },
           }
         )
-        .then((response) => console.log(response))
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
       window.location.reload();
     },
 
     deleteUser(user) {
-      axios
-        .delete("http://localhost:3000/api/auth/user/" + user.id, {
-          headers: { Authorization: "Bearer " + localStorage.token },
-        })
-        .then((response) => console.log(response))
-        .catch((err) => console.log(err));
-      this.$store.dispatch("logOut");
+      if (confirm("Voulez vous vraiment supprimer ce compte")) {
+        axios
+          .delete("http://localhost:3000/api/auth/user/" + user.id, {
+            headers: { Authorization: "Bearer " + localStorage.token },
+          })
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+        this.$store.dispatch("logOut");
+      }
     },
   },
 };

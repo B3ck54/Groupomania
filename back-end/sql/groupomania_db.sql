@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 03, 2021 at 02:40 PM
+-- Generation Time: Apr 03, 2021 at 07:09 PM
 -- Server version: 8.0.23-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `groupomania_db`
 --
-CREATE DATABASE IF NOT EXISTS `groupomania_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `groupomania_db`;
 
 -- --------------------------------------------------------
 
@@ -30,18 +28,14 @@ USE `groupomania_db`;
 -- Table structure for table `Answers`
 --
 
-DROP TABLE IF EXISTS `Answers`;
-CREATE TABLE IF NOT EXISTS `Answers` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Answers` (
+  `id` int NOT NULL,
   `username` varchar(64) NOT NULL,
   `comment` varchar(255) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `UserId` int UNSIGNED DEFAULT NULL,
-  `PostId` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `UserId` (`UserId`),
-  KEY `PostId` (`PostId`)
+  `PostId` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -50,16 +44,13 @@ CREATE TABLE IF NOT EXISTS `Answers` (
 -- Table structure for table `Posts`
 --
 
-DROP TABLE IF EXISTS `Posts`;
-CREATE TABLE IF NOT EXISTS `Posts` (
-  `id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Posts` (
+  `id` int NOT NULL,
   `message` text,
   `imageUrl` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
-  `UserId` int UNSIGNED DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `UserId` (`UserId`)
+  `UserId` int UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -68,20 +59,64 @@ CREATE TABLE IF NOT EXISTS `Posts` (
 -- Table structure for table `Users`
 --
 
-DROP TABLE IF EXISTS `Users`;
-CREATE TABLE IF NOT EXISTS `Users` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Users` (
+  `id` int UNSIGNED NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `username` varchar(64) NOT NULL,
   `isAdmin` tinyint(1) NOT NULL DEFAULT '0',
-  `imageUrl` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `username` (`username`)
+  `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Answers`
+--
+ALTER TABLE `Answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `UserId` (`UserId`),
+  ADD KEY `PostId` (`PostId`);
+
+--
+-- Indexes for table `Posts`
+--
+ALTER TABLE `Posts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `UserId` (`UserId`);
+
+--
+-- Indexes for table `Users`
+--
+ALTER TABLE `Users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Answers`
+--
+ALTER TABLE `Answers`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `Posts`
+--
+ALTER TABLE `Posts`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `Users`
+--
+ALTER TABLE `Users`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

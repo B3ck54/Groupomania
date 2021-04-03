@@ -99,7 +99,7 @@ exports.getProfile = (req, res, next) => {
 
 
   User.findOne({
-    attributes: ['id', 'email', 'username', 'isAdmin', 'imageUrl'],
+    attributes: ['id', 'email', 'username', 'isAdmin'],
     where: {
       id: userId,
     },
@@ -110,25 +110,20 @@ exports.getProfile = (req, res, next) => {
   })
 }
 exports.editProfile = (req, res, next) => {
-  
+
   const token = req.headers.authorization.split(" ")[1]; // on recupére le token(2eme élément du headers)
   const decodedToken = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
   const userId = decodedToken.user_id;
-  
+
   let userObject = {};
 
   if (req.file) {
     User.findOne({
         id: req.params.userId
       })
-      .then((user) => {
-          const filename = user.imageUrl.split('/images/')[1]
-          fs.unlinkSync(`images/${filename}`)
-      })
 
     userObject = {
       ...JSON.parse(req.body.user),
-      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     }
   } else {
     userObject = {
@@ -157,38 +152,19 @@ exports.deleteUser = (req, res) => {
       }
     })
     .then(user => {
-      if (user.imageUrl) {
-        const filename = user.imageUrl.split('./images/')[1];
-        fs.unlink(`images/${filename}`, () => {
-          user.destroy({
-              where: {
-                id: id
-              }
-            })
-            .then(() =>
-              res.status(200).json({
-                message: 'User has been deleted'
-              })
-            )
-            .catch(error => res.status(400).json({
-              error
-            }))
+      user.destroy({
+          where: {
+            id: id
+          }
         })
-      } else {
-        user.destroy({
-            where: {
-              id: id
-            }
+        .then(() =>
+          res.status(200).json({
+            message: 'User has been deleted'
           })
-          .then(() =>
-            res.status(200).json({
-              message: 'User has been deleted'
-            })
-          )
-          .catch(error => res.status(400).json({
-            error
-          }))
-      }
+        )
+        .catch(error => res.status(400).json({
+          error
+        }))
     })
     .catch(error => res.status(500).json({
       error: error.message

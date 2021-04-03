@@ -36,6 +36,7 @@
               fab
               v-bind="attrs"
               v-on="on"
+              href="javascript:;"
               @click="deleteUser(user)"
             >
               <v-icon>delete</v-icon>
@@ -70,13 +71,15 @@ export default {
       this.$router.push(`user/${id}`);
     },
     deleteUser(user) {
-      axios
-        .delete("http://localhost:3000/api/auth/user/" + user.id, {
-          headers: { Authorization: "Bearer " + localStorage.token },
-        })
-        .then((response) => console.log(response))
-        .catch((err) => console.log(err));
-      this.$store.dispatch("logOut");
+      if(confirm("Voulez vous vraiment supprimer ce compte")) {
+        axios
+          .delete("http://localhost:3000/api/auth/user/" + user.id, {
+            headers: { Authorization: "Bearer " + localStorage.token },
+          })
+          .then((res) => console.log(res))
+          .catch((err) => console.log(err));
+        this.$store.dispatch("logOut");
+      }
     },
   },
 };

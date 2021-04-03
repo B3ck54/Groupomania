@@ -43,7 +43,7 @@ import axios from "axios";
 import { mapState } from "vuex";
 
 export default {
-    mounted() {
+  mounted() {
     this.$store.dispatch("getUser");
   },
   computed: {
@@ -60,13 +60,15 @@ export default {
   },
   methods: {
     deleteUser(user) {
-      axios
-        .delete("http://localhost:3000/api/auth/user/" + user.id, {
-          headers: { Authorization: "Bearer " + localStorage.token },
-        })
-        .then((response) => console.log(response))
-        .catch((err) => console.log(err));
-      window.location.reload();
+      if (confirm("Voulez vous vraiment supprimer ce compte")) {
+        axios
+          .delete("http://localhost:3000/api/auth/user/" + user.id, {
+            headers: { Authorization: "Bearer " + localStorage.token },
+          })
+          .then((response) => console.log(response))
+          .catch((err) => console.log(err));
+        window.location.reload();
+      }
     },
   },
 };

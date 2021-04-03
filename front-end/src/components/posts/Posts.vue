@@ -100,7 +100,7 @@
                   </v-col>
                   <v-col cols="7" align="left">
                     <p class="caption">
-                      {{ answer.username }} a commenté ce post
+                      {{ answer.User.username }} a commenté ce post
                       {{ answer.createdAt | moment }}
                     </p>
                     <p class="caption">{{ answer.comment }}</p>
@@ -209,7 +209,7 @@ export default {
         .delete("http://localhost:3000/api/posts/" + post.id, {
           headers: { Authorization: "Bearer " + localStorage.token },
         })
-        .then((response) => console.log(response))
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
       window.location.reload();
     },
@@ -227,7 +227,7 @@ export default {
         .delete("http://localhost:3000/api/posts/answers/" + answer.id, {
           headers: { Authorization: "Bearer " + localStorage.token },
         })
-        .then((response) => console.log(response))
+        .then((res) => console.log(res))
         .catch((err) => console.log(err));
         window.location.reload();
     },

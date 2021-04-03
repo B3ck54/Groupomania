@@ -51,15 +51,15 @@ export default {
     password: null,
     username: null,
     rules: {
-      email: (v) => !!(v || "").match(/@/) || "Please enter a valid email",
+      email: (v) => !!(v || "").match(/@/) || "Cet email n'est pas valide",
       length: (len) => (v) =>
-        (v || "").length >= len || `Invalid character length, required ${len}`,
+        (v || "").length >= len || `Caractère et longueur invalide, requis ${len}`,
       password: (v) =>
         !!(v || "").match(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/
         ) ||
-        "Password must contain an upper case letter, a numeric character, and a special character",
-      required: (v) => !!v || "This field is required",
+        "Le mot de passe doit contenir une lettre majuscule, un chiffre, et un caractère spécial",
+      required: (v) => !!v || "Ce champs est requis"
     },
   }),
   methods: {
@@ -75,8 +75,8 @@ export default {
           .then(res => {
               let token = res.data.token;
               localStorage.setItem("token", token); 
-            router.push({ name: 'posts' }) ;
-
+              router.push({ name: 'posts' }) ;
+              window.location.reload();
           })
           .catch((err) => console.log(err));
       } else {
